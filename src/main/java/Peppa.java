@@ -7,8 +7,17 @@ public class Peppa {
         System.out.println(str);
     }
 
-    public static void main(String[] args) {
+    private static void exit() {
+        String str = "Bye. Hope to see you again soon!";
+        System.out.println(str);
+    }
+
+    private static void printline() {
         System.out.println(Peppa.LINE);
+    }
+
+    public static void main(String[] args) {
+        printline();
         String logo = ".______    _______ .______   .______      ___      \n"
                 + "|   _  \\  |   ____||   _  \\  |   _  \\    /   \\     \n"
                 + "|  |_)  | |  |__   |  |_)  | |  |_)  |  /  ^  \\    \n"
@@ -16,9 +25,10 @@ public class Peppa {
                 + "|  |      |  |____ |  |      |  |     /  _____  \\  \n"
                 + "| _|      |_______|| _|      | _|    /__/     \\__\\\n";
         System.out.println(logo);
-        System.out.println(Peppa.LINE);
+        printline();
         greeting();
-        System.out.println(Peppa.LINE);
-
+        printline();
+        exit();
+        printline();
     }
 }
