@@ -1,9 +1,13 @@
 import java.util.Scanner;
 
 public class Peppa {
-    private static String LINE = "____________________________________________________________";
-    private static String NAME = "Peppa";
+    private static final String LINE = "____________________________________________________________";
+    private static final String NAME = "Peppa";
     private static boolean QUIT = false;
+    private static String[] Tasks = new String[100];
+    private static int size = 0;
+    private static final int MAXSIZE = 100;
+
 
     private static void greeting() {
         String str = "Hello! I'm " + Peppa.NAME + "!\nWhat can I do for you?";
@@ -16,6 +20,13 @@ public class Peppa {
     private static void exit() {
         String str = "Bye. Hope to see you again soon!";
         System.out.println(str);
+    }
+
+    private static void addTask(String task) {
+        Tasks[size] = task;
+        size++;
+        System.out.println("Added: " + task);
+        printline();
     }
 
     public static void main(String[] args) {
@@ -37,8 +48,7 @@ public class Peppa {
                 QUIT=true;
                 break;
             }
-            System.out.println(command);
-            printline();
+            addTask(command);
         }
 
         exit();
