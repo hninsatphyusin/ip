@@ -4,9 +4,10 @@ public class Peppa {
     private static final String LINE = "____________________________________________________________";
     private static final String NAME = "Peppa";
     private static boolean QUIT = false;
-    private static Task[] Tasks = new Task[100];
-    private static int size = 0;
     private static final int MAXSIZE = 100;
+    private static Task[] Tasks = new Task[MAXSIZE];
+    private static int size = 0;
+
 
 
     private static void greeting() {
@@ -22,11 +23,40 @@ public class Peppa {
         System.out.println(str);
     }
 
-    private static void addTask(Task task) {
-        Tasks[size] = task;
-        size++;
-        System.out.println("Added: " + task.description);
-        printline();
+    private static boolean addTask(String task) {
+        Task newTask;
+        if (task.contains("todo")) {
+            newTask = new ToDo(task.substring(5, task.length())); //remove the todo
+        } else if (task.contains("deadline")) {
+            String str = task.substring(9); //remove the deadline
+            String[] arr = str.split("/by "); //split into description and deadline
+            newTask = new Deadline(arr[0], arr[1]); //create a newTask
+        } else if (task.contains("event")) {
+            String str =  task.substring(6); //remove the deadline
+
+            int from = str.indexOf("/from");
+            int to = str.indexOf("/to");
+
+            String description = str.substring(0, from-1);
+            String start = str.substring(from+6, to-1);
+            String end = str.substring(to+3);
+
+            newTask = new Event(description, start, end);
+        } else {
+            newTask = null;
+        }
+        if (size+1<MAXSIZE && newTask!=null) {
+            Tasks[size] = newTask;
+            size++;
+            System.out.println("Got it. I've: added this task: ");
+            System.out.println(newTask);
+            System.out.println("Now you have " + size + " tasks in the list.");
+            printline();
+            return true;
+        } else {
+            printline();
+            return false;
+        }
     }
 
     private static void displayTasks() {
@@ -86,8 +116,7 @@ public class Peppa {
                 String[] arr = command.split(" ");
                 markTask(Integer.valueOf(arr[1])-1);
             } else {
-                Task newTask = new Task(command);
-                addTask(newTask);
+                addTask(command);
             }
         }
 
