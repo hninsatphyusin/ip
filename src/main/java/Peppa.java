@@ -4,7 +4,7 @@ public class Peppa {
     private static final String LINE = "____________________________________________________________";
     private static final String NAME = "Peppa";
     private static boolean QUIT = false;
-    private static String[] Tasks = new String[100];
+    private static Task[] Tasks = new Task[100];
     private static int size = 0;
     private static final int MAXSIZE = 100;
 
@@ -22,17 +22,17 @@ public class Peppa {
         System.out.println(str);
     }
 
-    private static void addTask(String task) {
+    private static void addTask(Task task) {
         Tasks[size] = task;
         size++;
-        System.out.println("Added: " + task);
+        System.out.println("Added: " + task.description);
         printline();
     }
 
     private static void displayTasks() {
         for (int i = 0; i < size; i++) {
             int num = i+1;
-            System.out.println(num+". "+Tasks[i]);
+            System.out.println(num+". "+Tasks[i].description);
         }
         printline();
     }
@@ -58,7 +58,8 @@ public class Peppa {
             } else if (command.equals("list")) {
                 displayTasks();
             } else {
-                addTask(command);
+                Task newTask = new Task(command);
+                addTask(newTask);
             }
         }
 
