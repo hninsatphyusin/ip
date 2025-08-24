@@ -33,6 +33,10 @@ public class Peppa {
 
         while (!QUIT) {
             String command = scanner.nextLine();
+            if (command.equals("bye")) {
+                QUIT=true;
+                break;
+            }
             System.out.println(command);
             printline();
         }
