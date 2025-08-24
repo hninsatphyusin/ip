@@ -8,8 +8,6 @@ public class Peppa {
     private static Task[] Tasks = new Task[MAXSIZE];
     private static int size = 0;
 
-
-
     private static void greeting() {
         String str = "Hello! I'm " + Peppa.NAME + "!\nWhat can I do for you?";
         System.out.println(str);
@@ -115,8 +113,11 @@ public class Peppa {
             } else if (command.contains("mark")) {
                 String[] arr = command.split(" ");
                 markTask(Integer.valueOf(arr[1])-1);
-            } else {
+            } else if (command.contains("todo") || command.contains("deadline") || command.contains("event")) {
                 addTask(command);
+            } else {
+                System.out.println("Oopsies, I don't know what that means!");
+                printline();
             }
         }
 
