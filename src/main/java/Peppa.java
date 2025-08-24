@@ -48,6 +48,17 @@ public class Peppa {
         return false;
     }
 
+    private static boolean unmarkTask(int num) {
+        if (num < size) {
+            Tasks[num].markAsUndone();
+            System.out.println("OK, I've marked this task as not done yet: ");
+            System.out.println(Tasks[num]);
+            printline();
+            return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String logo = ".______    _______ .______   .______      ___      \n"
@@ -68,6 +79,9 @@ public class Peppa {
                 break;
             } else if (command.equals("list")) {
                 displayTasks();
+            } else if (command.contains("unmark")) {
+                String[] arr = command.split(" ");
+                unmarkTask(Integer.valueOf(arr[1])-1);
             } else if (command.contains("mark")) {
                 String[] arr = command.split(" ");
                 markTask(Integer.valueOf(arr[1])-1);
