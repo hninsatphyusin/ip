@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Peppa {
     private static String LINE = "____________________________________________________________";
     private static String NAME = "Peppa";
@@ -17,6 +19,7 @@ public class Peppa {
     }
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         String logo = ".______    _______ .______   .______      ___      \n"
                 + "|   _  \\  |   ____||   _  \\  |   _  \\    /   \\     \n"
                 + "|  |_)  | |  |__   |  |_)  | |  |_)  |  /  ^  \\    \n"
@@ -27,6 +30,12 @@ public class Peppa {
         printline();
         greeting();
         printline();
+
+        while (!QUIT) {
+            String command = scanner.nextLine();
+            System.out.println(command);
+            printline();
+        }
 
         exit();
         printline();
