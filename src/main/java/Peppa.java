@@ -73,6 +73,8 @@ public class Peppa {
             printline();
             return true;
         }
+        System.out.println("Cannot unmark task because task does not exist!");
+        printline();
         return false;
     }
 
@@ -84,6 +86,8 @@ public class Peppa {
             printline();
             return true;
         }
+        System.out.println("Cannot unmark task because task does not exist!");
+        printline();
         return false;
     }
 
