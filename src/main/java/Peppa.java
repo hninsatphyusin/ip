@@ -32,9 +32,20 @@ public class Peppa {
     private static void displayTasks() {
         for (int i = 0; i < size; i++) {
             int num = i+1;
-            System.out.println(num+". "+Tasks[i].description);
+            System.out.println(num+"."+Tasks[i]);
         }
         printline();
+    }
+
+    private static boolean markTask(int num) {
+        if (num < size) {
+            Tasks[num].markAsDone();
+            System.out.println("Nice! I've marked this task as done: ");
+            System.out.println(Tasks[num]);
+            printline();
+            return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {
@@ -53,10 +64,13 @@ public class Peppa {
         while (!QUIT) {
             String command = scanner.nextLine();
             if (command.equals("bye")) {
-                QUIT=true;
+                QUIT = true;
                 break;
             } else if (command.equals("list")) {
                 displayTasks();
+            } else if (command.contains("mark")) {
+                String[] arr = command.split(" ");
+                markTask(Integer.valueOf(arr[1])-1);
             } else {
                 Task newTask = new Task(command);
                 addTask(newTask);
