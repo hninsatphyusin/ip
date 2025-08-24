@@ -10,6 +10,12 @@ public class Peppa {
     private static void printline() {
         System.out.println(Peppa.LINE);
     }
+
+    private static void exit() {
+        String str = "Bye. Hope to see you again soon!";
+        System.out.println(str);
+    }
+
     public static void main(String[] args) {
         String logo = ".______    _______ .______   .______      ___      \n"
                 + "|   _  \\  |   ____||   _  \\  |   _  \\    /   \\     \n"
@@ -20,6 +26,9 @@ public class Peppa {
         System.out.println(logo);
         printline();
         greeting();
+        printline();
+
+        exit();
         printline();
     }
 }
