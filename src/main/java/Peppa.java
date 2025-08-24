@@ -92,6 +92,21 @@ public class Peppa {
         return false;
     }
 
+    private static boolean deleteTask(int num) {
+        if (num < size) {
+            Task tbr = Tasks.remove(num);
+            System.out.println("Noted. I've removed this task:");
+            System.out.println(tbr);
+            size--;
+            System.out.println("Now you have " + size + " in the list");
+            printline();
+            return true;
+        }
+        System.out.println("Cannot delete task because task does not exist!");
+        printline();
+        return false;
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String logo = ".______    _______ .______   .______      ___      \n"
@@ -118,6 +133,9 @@ public class Peppa {
             } else if (command.contains("mark")) {
                 String[] arr = command.split(" ");
                 markTask(Integer.valueOf(arr[1])-1);
+            } else if (command.contains("delete")) {
+                String[] arr = command.split(" ");
+                deleteTask(Integer.valueOf(arr[1])-1);
             } else if (command.contains("todo") || command.contains("deadline") || command.contains("event")) {
                 addTask(command);
             } else {
