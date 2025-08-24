@@ -29,6 +29,14 @@ public class Peppa {
         printline();
     }
 
+    private static void displayTasks() {
+        for (int i = 0; i < size; i++) {
+            int num = i+1;
+            System.out.println(num+". "+Tasks[i]);
+        }
+        printline();
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String logo = ".______    _______ .______   .______      ___      \n"
@@ -47,8 +55,11 @@ public class Peppa {
             if (command.equals("bye")) {
                 QUIT=true;
                 break;
+            } else if (command.equals("list")) {
+                displayTasks();
+            } else {
+                addTask(command);
             }
-            addTask(command);
         }
 
         exit();
