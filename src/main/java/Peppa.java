@@ -1,11 +1,12 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Peppa {
     private static final String LINE = "____________________________________________________________";
     private static final String NAME = "Peppa";
     private static boolean QUIT = false;
-    private static final int MAXSIZE = 100;
-    private static Task[] Tasks = new Task[MAXSIZE];
+    //private static final int MAXSIZE = 100;
+    private static ArrayList<Task> Tasks = new ArrayList<Task>();
     private static int size = 0;
 
     private static void greeting() {
@@ -43,8 +44,8 @@ public class Peppa {
         } else {
             newTask = null;
         }
-        if (size+1<MAXSIZE && newTask!=null) {
-            Tasks[size] = newTask;
+        if (newTask!=null) {
+            Tasks.add(newTask);
             size++;
             System.out.println("Got it. I've: added this task: ");
             System.out.println(newTask);
@@ -60,16 +61,16 @@ public class Peppa {
     private static void displayTasks() {
         for (int i = 0; i < size; i++) {
             int num = i+1;
-            System.out.println(num+"."+Tasks[i]);
+            System.out.println(num+"."+Tasks.get(i));
         }
         printline();
     }
 
     private static boolean markTask(int num) {
         if (num < size) {
-            Tasks[num].markAsDone();
+            Tasks.get(num).markAsDone();
             System.out.println("Nice! I've marked this task as done: ");
-            System.out.println(Tasks[num]);
+            System.out.println(Tasks.get(num));
             printline();
             return true;
         }
@@ -80,9 +81,9 @@ public class Peppa {
 
     private static boolean unmarkTask(int num) {
         if (num < size) {
-            Tasks[num].markAsUndone();
+            Tasks.get(num).markAsUndone();
             System.out.println("OK, I've marked this task as not done yet: ");
-            System.out.println(Tasks[num]);
+            System.out.println(Tasks.get(num));
             printline();
             return true;
         }
