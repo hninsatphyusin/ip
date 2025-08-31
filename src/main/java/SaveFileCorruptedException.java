@@ -1,4 +1,6 @@
-public class SaveFileCorruptedException extends RuntimeException {
+import java.io.IOException;
+
+public class SaveFileCorruptedException extends IOException {
   public SaveFileCorruptedException() {
     super("Save file is corrupted");
   }
