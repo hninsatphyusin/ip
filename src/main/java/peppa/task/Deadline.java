@@ -1,3 +1,5 @@
+package peppa.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,7 +14,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    String toSaveFileFormat() {
+    public String toSaveFileFormat() {
         String data = "D | ";
         if (this.isDone()) {
             data += "1 | ";

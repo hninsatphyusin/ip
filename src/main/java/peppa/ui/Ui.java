@@ -1,6 +1,8 @@
+package peppa.ui;
+
 public class Ui {
     private final String LINE = "____________________________________________________________";
-    private final String NAME = "Peppa";
+    private final String NAME = "peppa.command.Peppa";
 
     private final String logo = ".______    _______ .______   .______      ___      \n"
             + "|   _  \\  |   ____||   _  \\  |   _  \\    /   \\     \n"
