@@ -6,12 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ToDoTest {
     @Test
-    public void dummyTest(){
-        assertEquals(2, 2);
+    void toSaveFileFormat_markNotDone_success() {
+        ToDo todo = new ToDo("read book");
+        assertEquals("T | 0 | read book", todo.toSaveFileFormat());
     }
 
     @Test
-    public void anotherDummyTest(){
-        assertEquals(4, 4);
+    void toSaveFileFormat_markDone_success() {
+        ToDo todo = new ToDo("write code");
+        todo.markAsDone();
+        assertEquals("T | 1 | write code", todo.toSaveFileFormat());
     }
 }
