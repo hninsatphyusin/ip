@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<Task>();
-    private int size = 0;
     private Ui ui;
 
     TaskList(ArrayList<Task> tasks, Ui ui) {
@@ -34,10 +33,9 @@ public class TaskList {
         }
         if (newTask!=null) {
             tasks.add(newTask);
-            size++;
             System.out.println("Got it. I've: added this task: ");
             System.out.println(newTask);
-            System.out.println("Now you have " + size + " tasks in the list.");
+            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
             ui.printline();
             return true;
         } else {
@@ -68,7 +66,7 @@ public class TaskList {
     }
 
     public boolean unmarkTask(int num) {
-        if (num < size) {
+        if (num < tasks.size()) {
             tasks.get(num).markAsUndone();
             System.out.println("OK, I've marked this task as not done yet: ");
             System.out.println(tasks.get(num));
@@ -81,12 +79,11 @@ public class TaskList {
     }
 
     public boolean deleteTask(int num) {
-        if (num < size) {
+        if (num < tasks.size()) {
             Task tbr = tasks.remove(num);
             System.out.println("Noted. I've removed this task:");
             System.out.println(tbr);
-            size--;
-            System.out.println("Now you have " + size + " in the list");
+            System.out.println("Now you have " + tasks.size() + " in the list");
             ui.printline();
             return true;
         }
