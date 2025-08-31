@@ -1,12 +1,16 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
 
-    protected String from;
-    protected String to;
+    protected LocalDateTime from;
+    protected LocalDateTime to;
 
     public Event(String description, String from, String to) {
         super(description);
-        this.from = from;
-        this.to = to;
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        this.from = LocalDateTime.parse(from, fmt);
+        this.to = LocalDateTime.parse(to, fmt);
     }
 
     @Override
@@ -17,12 +21,14 @@ public class Event extends Task {
         } else {
             data += "0 | ";
         }
-        data += this.description + " | " + this.from + " | " + this.to;
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+        data += this.description + " | " + this.from.format(fmt) + " | " + this.to.format(fmt);
         return data;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + this.from + " to:" + this.to + ")";
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMM d yyyy h a");
+        return "[E]" + super.toString() + " (from: " + this.from.format(fmt) + " to:" + this.to.format(fmt) + ")";
     }
 }
