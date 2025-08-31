@@ -18,7 +18,7 @@ public class Parser {
      * @param storage  persistence layer used for serialising {@code tasks}
      * @param ui       user-interface helper for printing separators / prompts
      */
-    Parser(TaskList tasks, Storage storage, Ui ui) {
+    public Parser(TaskList tasks, Storage storage, Ui ui) {
         this.tasks = tasks;
         this.storage = storage;
         this.ui = ui;

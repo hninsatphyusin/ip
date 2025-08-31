@@ -1,10 +1,10 @@
 package peppa.ui;
 
 public class Ui {
-    private final String LINE = "____________________________________________________________";
-    private final String NAME = "peppa.command.Peppa";
+    private static final String LINE = "____________________________________________________________";
+    private static final String NAME = "peppa.command.Peppa";
 
-    private final String logo = ".______    _______ .______   .______      ___      \n"
+    private static final String LOGO = ".______    _______ .______   .______      ___      \n"
             + "|   _  \\  |   ____||   _  \\  |   _  \\    /   \\     \n"
             + "|  |_)  | |  |__   |  |_)  | |  |_)  |  /  ^  \\    \n"
             + "|   ___/  |   __|  |   ___/  |   ___/  /  /_\\  \\   \n"

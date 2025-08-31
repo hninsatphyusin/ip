@@ -28,7 +28,7 @@ public class Storage {
      *
      * @param filePath location of the save file relative to the project root
      */
-    Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
+    public Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
         this.filePath = new File(filePath);
         try {
             if (this.filePath.exists()) {
