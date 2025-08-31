@@ -1,4 +1,4 @@
-public class Task {
+abstract class Task {
     protected String description;
     protected boolean isDone;
 
@@ -15,9 +15,15 @@ public class Task {
         isDone = true;
     }
 
+    public boolean isDone() {
+        return this.isDone;
+    }
+
     public void markAsUndone() {
         isDone = false;
     }
+
+    abstract String toSaveFileFormat();
 
     @Override
     public String toString() {
