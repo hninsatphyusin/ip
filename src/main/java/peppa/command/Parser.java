@@ -41,6 +41,11 @@ public class Parser {
             storage.save(tasks);
             break;
         }
+        case "find": {
+            String toFind = input.split("\\s+", 2)[1];
+            tasks.findTask(toFind);
+            break;
+        }
         case "todo":
         case "deadline":
         case "event":

@@ -12,6 +12,7 @@ public abstract class Task {
     public boolean isMatch(String toFind) {
         return this.description.contains(toFind);
     }
+
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
     }

@@ -104,4 +104,18 @@ public class TaskList {
         return this.tasks;
     }
 
+    public void findTask(String toFind) {
+        ui.printline();
+        System.out.println("Here are the matching tasks in your list: ");
+        int count = 0;
+        for (int i = 0; i < tasks.size(); i++) {
+            Task curr = tasks.get(i);
+            if (curr.isMatch(toFind)) {
+                System.out.println(count + "." + curr.toString());
+                count++;
+            }
+        }
+        ui.printline();
+    }
+
 }
