@@ -10,20 +10,28 @@ public class Save {
     private ArrayList<Task> data = new ArrayList<>();
     private File saveFile = new File("./data/Peppa.txt");
 
-    Save() throws IOException { //creating a new instance of Save will try to create a saveFile
-        if (saveFile.exists()) {
-            readFromSaveFile();
-        } else {
-            saveFile.createNewFile();
+    Save() { //creating a new instance of Save will try to create a saveFile
+        try {
+            if (saveFile.exists()) {
+                readFromSaveFile();
+            } else {
+                File parentDir = saveFile.getParentFile();
+                if (!parentDir.exists()) {
+                    parentDir.mkdirs();
+                }
+                saveFile.createNewFile();
+            }
+        } catch (IOException e) {
+            System.out.println(e);
         }
     }
 
-    public boolean saveToHardDrive(ArrayList<Task> tasks) throws IOException {
-        if (saveFile.exists()) {
-            saveFile.delete();
-        }
-        saveFile.createNewFile();
+    public boolean saveToHardDrive(ArrayList<Task> tasks) {
         try {
+            if (saveFile.exists()) {
+                saveFile.delete();
+            }
+            saveFile.createNewFile();
             FileWriter writer = new FileWriter(saveFile);
             for (int i = 0; i < tasks.size(); i++) {
                 String saveFileDesc = tasks.get(i).toSaveFileFormat();
@@ -47,7 +55,7 @@ public class Save {
             Scanner scanner = new Scanner(saveFile);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String[] splitLine = line.split(" | ");
+                String[] splitLine = line.split(" \\| ");
 
                 Task newTask;
                 switch (splitLine[0]) {
@@ -81,5 +89,9 @@ public class Save {
             System.out.println(e);
             return false;
         }
+    }
+
+    public ArrayList<Task> getTasksFromSaveFile() {
+        return this.data;
     }
 }
