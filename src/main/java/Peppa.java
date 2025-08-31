@@ -3,20 +3,24 @@ import java.util.Scanner;
 
 
 public class Peppa {
-    private static boolean QUIT = false;
-    private static Ui ui = new Ui();
-    private static TaskList tasks;
-    private static Parser parser;
+    private boolean QUIT = false;
+    private final Ui ui;
+    private TaskList tasks;
+    private Parser parser;
+    private Storage storage;
 
-    public static void main(String[] args) {
-
-        Storage storage = new Storage("./data/Peppa.txt");
+    public Peppa(String filePath) {
+        this.ui = new Ui();
+        this.storage = new Storage(filePath);
         try {
-            tasks = new TaskList(storage.load(), ui);
+            this.tasks = new TaskList(storage.load(), ui);
         } catch (IOException e) {
             System.out.println(e);
         }
-        parser = new Parser(tasks, storage, ui);
+        this.parser = new Parser(tasks, storage, ui);
+    }
+
+    public void run() {
         ui.printline();
         ui.printLogo();
         ui.greeting();
@@ -30,5 +34,8 @@ public class Peppa {
 
         ui.exitMsg();
         ui.printline();
+    }
+    public static void main(String[] args) {
+        new Peppa("./data/Peppa.txt").run();
     }
 }
