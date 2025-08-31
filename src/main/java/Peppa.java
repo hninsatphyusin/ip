@@ -3,36 +3,17 @@ import java.util.ArrayList;
 
 
 public class Peppa {
-    private static final String LINE = "____________________________________________________________";
-    private static final String NAME = "Peppa";
     private static boolean QUIT = false;
-    private static TaskList tasks = new TaskList();
-
-    private static void greeting() {
-        String str = "Hello! I'm " + Peppa.NAME + "!\nWhat can I do for you?";
-        System.out.println(str);
-    }
-    private static void printline() {
-        System.out.println(Peppa.LINE);
-    }
-
-    private static void exit() {
-        String str = "Bye. Hope to see you again soon!";
-        System.out.println(str);
-    }
+    private static Ui ui = new Ui();
+    private static TaskList tasks = new TaskList(ui);
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String logo = ".______    _______ .______   .______      ___      \n"
-                + "|   _  \\  |   ____||   _  \\  |   _  \\    /   \\     \n"
-                + "|  |_)  | |  |__   |  |_)  | |  |_)  |  /  ^  \\    \n"
-                + "|   ___/  |   __|  |   ___/  |   ___/  /  /_\\  \\   \n"
-                + "|  |      |  |____ |  |      |  |     /  _____  \\  \n"
-                + "| _|      |_______|| _|      | _|    /__/     \\__\\\n";
-        System.out.println(logo);
-        printline();
-        greeting();
-        printline();
+
+        ui.printline();
+        ui.printLogo();
+        ui.greeting();
+        ui.printline();
 
         Save saveFile = new Save();
         ArrayList<Task> data = saveFile.getTasksFromSaveFile();
@@ -64,11 +45,11 @@ public class Peppa {
                 saveFile.saveToHardDrive(tasks);
             } else {
                 System.out.println("Oopsies, I don't know what that means!");
-                printline();
+                ui.printline();
             }
         }
 
-        exit();
-        printline();
+        ui.exitMsg();
+        ui.printline();
     }
 }

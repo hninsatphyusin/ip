@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class TaskList {
-    private final String LINE = "____________________________________________________________";
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private int size = 0;
+    private Ui ui;
 
-    private void printline() {
-        System.out.println(LINE);
+    TaskList(Ui ui) {
+        this.ui = ui;
     }
 
     public boolean addTask(String task) {
@@ -37,10 +37,10 @@ public class TaskList {
             System.out.println("Got it. I've: added this task: ");
             System.out.println(newTask);
             System.out.println("Now you have " + size + " tasks in the list.");
-            printline();
+            ui.printline();
             return true;
         } else {
-            printline();
+            ui.printline();
             return false;
         }
     }
@@ -50,7 +50,7 @@ public class TaskList {
             int num = i+1;
             System.out.println(num+"."+ tasks.get(i));
         }
-        printline();
+        ui.printline();
     }
 
     public boolean markTask(int num) {
@@ -58,11 +58,11 @@ public class TaskList {
             tasks.get(num).markAsDone();
             System.out.println("Nice! I've marked this task as done: ");
             System.out.println(tasks.get(num));
-            printline();
+            ui.printline();
             return true;
         }
         System.out.println("Cannot unmark task because task does not exist!");
-        printline();
+        ui.printline();
         return false;
     }
 
@@ -71,11 +71,11 @@ public class TaskList {
             tasks.get(num).markAsUndone();
             System.out.println("OK, I've marked this task as not done yet: ");
             System.out.println(tasks.get(num));
-            printline();
+            ui.printline();
             return true;
         }
         System.out.println("Cannot unmark task because task does not exist!");
-        printline();
+        ui.printline();
         return false;
     }
 
@@ -86,11 +86,11 @@ public class TaskList {
             System.out.println(tbr);
             size--;
             System.out.println("Now you have " + size + " in the list");
-            printline();
+            ui.printline();
             return true;
         }
         System.out.println("Cannot delete task because task does not exist!");
-        printline();
+        ui.printline();
         return false;
     }
 
