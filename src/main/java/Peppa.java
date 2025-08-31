@@ -120,6 +120,13 @@ public class Peppa {
         greeting();
         printline();
 
+        Save saveFile = new Save();
+        ArrayList<Task> data = saveFile.getTasksFromSaveFile();
+        if (data != null && data.size()>0) {
+            Tasks = data;
+            size = Tasks.size();
+        }
+
         while (!QUIT) {
             String command = scanner.nextLine();
             if (command.equals("bye")) {
@@ -130,14 +137,18 @@ public class Peppa {
             } else if (command.contains("unmark")) {
                 String[] arr = command.split(" ");
                 unmarkTask(Integer.valueOf(arr[1])-1);
+                saveFile.saveToHardDrive(Tasks);
             } else if (command.contains("mark")) {
                 String[] arr = command.split(" ");
                 markTask(Integer.valueOf(arr[1])-1);
+                saveFile.saveToHardDrive(Tasks);
             } else if (command.contains("delete")) {
                 String[] arr = command.split(" ");
                 deleteTask(Integer.valueOf(arr[1])-1);
+                saveFile.saveToHardDrive(Tasks);
             } else if (command.contains("todo") || command.contains("deadline") || command.contains("event")) {
                 addTask(command);
+                saveFile.saveToHardDrive(Tasks);
             } else {
                 System.out.println("Oopsies, I don't know what that means!");
                 printline();

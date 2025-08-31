@@ -10,6 +10,18 @@ public class Event extends Task {
     }
 
     @Override
+    public String toSaveFileFormat() {
+        String data = "E | ";
+        if (this.isDone()) {
+            data += "1 | ";
+        } else {
+            data += "0 | ";
+        }
+        data += this.description + " | " + this.from + " | " + this.to;
+        return data;
+    }
+
+    @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: " + this.from + " to:" + this.to + ")";
     }
