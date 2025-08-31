@@ -6,35 +6,36 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.io.FileWriter;
 
-public class Save {
-    private ArrayList<Task> data = new ArrayList<>();
-    private File saveFile = new File("./data/Peppa.txt");
+public class Storage {
+    private final File filePath;
 
-    Save() { //creating a new instance of Save will try to create a saveFile
+    Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
+        this.filePath = new File(filePath);
         try {
-            if (saveFile.exists()) {
-                readFromSaveFile();
+            if (this.filePath.exists()) {
+                load();
             } else {
-                File parentDir = saveFile.getParentFile();
+                File parentDir = this.filePath.getParentFile();
                 if (!parentDir.exists()) {
                     parentDir.mkdirs();
                 }
-                saveFile.createNewFile();
+                this.filePath.createNewFile();
             }
         } catch (IOException e) {
             System.out.println(e);
         }
     }
 
-    public boolean saveToHardDrive(ArrayList<Task> tasks) {
+    public boolean save(TaskList tasks) {
+        ArrayList<Task> tl = tasks.getTaskList();
         try {
-            if (saveFile.exists()) {
-                saveFile.delete();
+            if (filePath.exists()) {
+                filePath.delete();
             }
-            saveFile.createNewFile();
-            FileWriter writer = new FileWriter(saveFile);
-            for (int i = 0; i < tasks.size(); i++) {
-                String saveFileDesc = tasks.get(i).toSaveFileFormat();
+            filePath.createNewFile();
+            FileWriter writer = new FileWriter(filePath);
+            for (int i = 0; i < tl.size(); i++) {
+                String saveFileDesc = tl.get(i).toSaveFileFormat();
                 writer.write(saveFileDesc+"\n");
             }
             writer.close();
@@ -47,12 +48,13 @@ public class Save {
         }
     }
 
-    public boolean readFromSaveFile() throws IOException {
-        if (!saveFile.exists()) {
-            return false;
+    public ArrayList<Task> load() throws IOException {
+        if (!filePath.exists()) {
+            return null;
         }
         try {
-            Scanner scanner = new Scanner(saveFile);
+            ArrayList<Task> data = new ArrayList<>();
+            Scanner scanner = new Scanner(filePath);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] splitLine = line.split(" \\| ");
@@ -77,21 +79,17 @@ public class Save {
                     if (Objects.equals(splitLine[1], "1")) {
                         newTask.markAsDone();
                     }
-                    this.data.add(newTask);
+                    data.add(newTask);
                 }
             }
             scanner.close();
-            return true;
+            return data;
         } catch (FileNotFoundException e) {
             System.out.println(e);
-            return false;
+            return null;
         } catch (SaveFileCorruptedException e) {
             System.out.println(e);
-            return false;
+            return null;
         }
-    }
-
-    public ArrayList<Task> getTasksFromSaveFile() {
-        return this.data;
     }
 }
