@@ -1,10 +1,12 @@
+package peppa.task;
+
 public class ToDo extends Task {
     public ToDo(String description) {
         super(description);
     }
 
     @Override
-    String toSaveFileFormat() {
+    public String toSaveFileFormat() {
         String data = "T | ";
         if (this.isDone()) {
             data += "1 | ";

@@ -1,4 +1,6 @@
-abstract class Task {
+package peppa.task;
+
+public abstract class Task {
     protected String description;
     protected boolean isDone;
 
@@ -23,7 +25,7 @@ abstract class Task {
         isDone = false;
     }
 
-    abstract String toSaveFileFormat();
+    public abstract String toSaveFileFormat();
 
     @Override
     public String toString() {

@@ -1,3 +1,12 @@
+package peppa.command;
+
+import peppa.exception.SaveFileCorruptedException;
+import peppa.task.Task;
+import peppa.task.TaskList;
+import peppa.task.ToDo;
+import peppa.task.Event;
+import peppa.task.Deadline;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
@@ -39,7 +48,7 @@ public class Storage {
                 writer.write(saveFileDesc+"\n");
             }
             writer.close();
-            System.out.println("Successfully saved to ./data/Peppa.txt");
+            System.out.println("Successfully saved to ./data/peppa.command.Peppa.txt");
             return true;
         } catch (IOException e) {
             System.out.println(e);

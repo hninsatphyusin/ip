@@ -1,10 +1,14 @@
+package peppa.task;
+
+import peppa.ui.Ui;
+
 import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private Ui ui;
 
-    TaskList(ArrayList<Task> tasks, Ui ui) {
+    public TaskList(ArrayList<Task> tasks, Ui ui) {
         this.tasks = tasks;
         this.ui = ui;
     }

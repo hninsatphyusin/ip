@@ -1,3 +1,5 @@
+package peppa.exception;
+
 import java.io.IOException;
 
 public class SaveFileCorruptedException extends IOException {
