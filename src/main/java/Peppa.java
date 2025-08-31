@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
+
 public class Peppa {
     private static final String LINE = "____________________________________________________________";
     private static final String NAME = "Peppa";
@@ -38,7 +39,7 @@ public class Peppa {
 
             String description = str.substring(0, from-1);
             String start = str.substring(from+6, to-1);
-            String end = str.substring(to+3);
+            String end = str.substring(to+4);
 
             newTask = new Event(description, start, end);
         } else {
