@@ -31,28 +31,46 @@ public class Parser {
      * @return {@code false} if the user typed {@literal "bye"} (caller should terminate);
      *         {@code true} otherwise
      */
-    public boolean parse(String input) { //returns false if quitting
-        input = input.trim(); //removes whitespace from both ends of a string
-        if (input.equals("bye")) {
-            return false;
-        } else if (input.equals("list")) {
+    public boolean parse(String input) {
+        input = input.trim();
+        String command = input.split("\\s+", 2)[0];   //takes the first word
+        switch (command) {
+        case "bye":
+            return false; //it will end the loop
+        case "list":
             tasks.displayTasks();
-        } else if (input.contains("unmark")) {
-            String[] arr = input.split(" ");
-            tasks.unmarkTask(Integer.valueOf(arr[1])-1);
+            break;
+        case "unmark": {
+            String[] parts = input.split(" ");
+            tasks.unmarkTask(Integer.parseInt(parts[1]) - 1);
             storage.save(tasks);
-        } else if (input.contains("mark")) {
-            String[] arr = input.split(" ");
-            tasks.markTask(Integer.valueOf(arr[1])-1);
+            break;
+        }
+        case "mark": {
+            String[] parts = input.split(" ");
+            tasks.markTask(Integer.parseInt(parts[1]) - 1);
             storage.save(tasks);
-        } else if (input.contains("delete")) {
-            String[] arr = input.split(" ");
-            tasks.deleteTask(Integer.valueOf(arr[1])-1);
+            break;
+        }
+        case "delete": {
+            String[] parts = input.split(" ");
+            tasks.deleteTask(Integer.parseInt(parts[1]) - 1);
             storage.save(tasks);
-        } else if (input.contains("todo") || input.contains("deadline") || input.contains("event")) {
+            break;
+        }
+        case "find": {
+            String toFind = input.split("\\s+", 2)[1];
+            tasks.findTask(toFind);
+            break;
+        }
+        case "todo":
+        case "deadline":
+        case "event":
             tasks.addTask(input);
             storage.save(tasks);
-        } else {
+            break;
+
+        default:
             System.out.println("Oopsies, I don't know what that means!");
             ui.printline();
         }
