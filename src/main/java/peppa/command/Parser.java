@@ -8,7 +8,7 @@ public class Parser {
     private final Storage storage;
     private final Ui ui;
 
-    Parser(TaskList tasks, Storage storage, Ui ui) {
+    public Parser(TaskList tasks, Storage storage, Ui ui) {
         this.tasks = tasks;
         this.storage = storage;
         this.ui = ui;

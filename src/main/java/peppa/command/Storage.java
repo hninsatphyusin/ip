@@ -18,7 +18,7 @@ import java.io.FileWriter;
 public class Storage {
     private final File filePath;
 
-    Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
+    public Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
         this.filePath = new File(filePath);
         try {
             if (this.filePath.exists()) {
