@@ -26,15 +26,16 @@ public class Save {
         }
     }
 
-    public boolean saveToHardDrive(ArrayList<Task> tasks) {
+    public boolean saveToHardDrive(TaskList tasks) {
+        ArrayList<Task> tl = tasks.getTaskList();
         try {
             if (saveFile.exists()) {
                 saveFile.delete();
             }
             saveFile.createNewFile();
             FileWriter writer = new FileWriter(saveFile);
-            for (int i = 0; i < tasks.size(); i++) {
-                String saveFileDesc = tasks.get(i).toSaveFileFormat();
+            for (int i = 0; i < tl.size(); i++) {
+                String saveFileDesc = tl.get(i).toSaveFileFormat();
                 writer.write(saveFileDesc+"\n");
             }
             writer.close();
