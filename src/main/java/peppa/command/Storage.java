@@ -15,9 +15,19 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.io.FileWriter;
 
+/**
+ * Persists the user’s tasks: saves the current list to disk and recreates it on start-up.
+ * Internally wraps a {@link java.io.File} and handles both serialization and parsing.
+ */
 public class Storage {
     private final File filePath;
 
+    /**
+     * Builds a Storage backed by the given path and guarantees that
+     * the file (and its parent directory) exist, loading any data found.
+     *
+     * @param filePath location of the save file relative to the project root
+     */
     Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
         this.filePath = new File(filePath);
         try {
@@ -35,6 +45,13 @@ public class Storage {
         }
     }
 
+    /**
+     * Serialises every task in {@code tasks} to the backing file,
+     * overwriting any previous contents.
+     *
+     * @param tasks current in-memory task list
+     * @return {@code true} on success, {@code false} if any I/O error occurs
+     */
     public boolean save(TaskList tasks) {
         ArrayList<Task> tl = tasks.getTaskList();
         try {
@@ -57,6 +74,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Reads the backing file, reconstructs all tasks it contains and
+     * returns them as a list; returns {@code null} if the file is missing
+     * or irreparably corrupted.
+     *
+     * @return list of tasks recovered from disk, or {@code null} on failure
+     * @throws IOException if a low-level I/O error prevents reading the file
+     */
     public ArrayList<Task> load() throws IOException {
         if (!filePath.exists()) {
             return null;
