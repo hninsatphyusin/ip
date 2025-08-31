@@ -4,15 +4,33 @@ import peppa.ui.Ui;
 
 import java.util.ArrayList;
 
+/**
+ * In-memory catalogue of {@link Task}s, offering add / list / mark / unmark / delete operations
+ * while delegating all console output decorations to a {@link Ui} instance.
+ */
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<Task>();
     private Ui ui;
 
+    /**
+     * Wraps an existing task collection with a UI helper.
+     *
+     * @param tasks initial task data to manage
+     * @param ui    CLI decorator responsible for printing divider lines
+     */
     public TaskList(ArrayList<Task> tasks, Ui ui) {
         this.tasks = tasks;
         this.ui = ui;
     }
 
+    /**
+     * Parses a raw user command (<em>todo</em>, <em>deadline</em>, or <em>event</em>)
+     * into a concrete {@link Task} and appends it to the list.
+     *
+     * @param task full command string typed by the user
+     * @return {@code true} if parsing succeeded and the task was stored;
+     *         {@code false} for malformed input
+     */
     public boolean addTask(String task) {
         Task newTask;
         if (task.contains("todo")) {
@@ -48,6 +66,9 @@ public class TaskList {
         }
     }
 
+    /**
+     * Prints every task with a 1-based index, then a divider line.
+     */
     public void displayTasks() {
         for (int i = 0; i < tasks.size(); i++) {
             int num = i+1;
@@ -56,6 +77,12 @@ public class TaskList {
         ui.printline();
     }
 
+    /**
+     * Marks the given task as done and confirms the action.
+     *
+     * @param num zero-based task index
+     * @return {@code true} on success, {@code false} if the index is out of range
+     */
     public boolean markTask(int num) {
         if (num < tasks.size()) {
             tasks.get(num).markAsDone();
@@ -69,6 +96,12 @@ public class TaskList {
         return false;
     }
 
+    /**
+     * Reverses the done state of the given task and confirms the action.
+     *
+     * @param num zero-based task index
+     * @return {@code true} on success, {@code false} if the index is out of range
+     */
     public boolean unmarkTask(int num) {
         if (num < tasks.size()) {
             tasks.get(num).markAsUndone();
@@ -82,6 +115,12 @@ public class TaskList {
         return false;
     }
 
+    /**
+     * Removes the indexed task from the list and prints a summary.
+     *
+     * @param num zero-based task index
+     * @return {@code true} on success, {@code false} if the index is out of range
+     */
     public boolean deleteTask(int num) {
         if (num < tasks.size()) {
             Task tbr = tasks.remove(num);
@@ -96,10 +135,20 @@ public class TaskList {
         return false;
     }
 
+    /**
+     * Replaces the current internal list with the supplied one.
+     *
+     * @param tasks new task collection
+     */
     public void setTaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
 
+    /**
+     * Exposes the underlying mutable list for persistence.
+     *
+     * @return the current {@link ArrayList} of tasks
+     */
     public ArrayList<Task> getTaskList() {
         return this.tasks;
     }

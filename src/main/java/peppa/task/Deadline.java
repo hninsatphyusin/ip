@@ -3,16 +3,34 @@ package peppa.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Task that must be finished by a specific date-time.
+ * Stores the deadline and formats itself for display and persistence.
+ */
 public class Deadline extends Task {
 
     protected LocalDateTime by;
 
+    /**
+     * Creates a new deadline task.
+     *
+     * @param description human-readable task details
+     * @param by due date-time in <code>d/M/yyyy&nbsp;HHmm</code> format
+     *           (e.g.&nbsp;<kbd>2/9/2025&nbsp;2359</kbd>)
+     */
     public Deadline(String description, String by) {
         super(description);
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
         this.by = LocalDateTime.parse(by, fmt);
     }
 
+
+    /**
+     * Encodes the task into the custom save-file syntax:
+     * <pre>D | &lt;0 or 1&gt; | &lt;description&gt; | &lt;d/M/yyyy&nbsp;HHmm&gt;</pre>
+     *
+     * @return one-line representation ready to be written to disk
+     */
     @Override
     public String toSaveFileFormat() {
         String data = "D | ";
@@ -26,6 +44,12 @@ public class Deadline extends Task {
         return data;
     }
 
+    /**
+     * Human-friendly view of the task, e.g.
+     * <code>[D]read book(by: Sep&nbsp;2&nbsp;2025&nbsp;11&nbsp;PM)</code>
+     *
+     * @return pretty-printed string for CLI display
+     */
     @Override
     public String toString() {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("MMM d yyyy h a");
