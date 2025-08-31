@@ -4,6 +4,18 @@ public class ToDo extends Task {
     }
 
     @Override
+    String toSaveFileFormat() {
+        String data = "T | ";
+        if (this.isDone()) {
+            data += "1 | ";
+        } else {
+            data += "0 | ";
+        }
+        data += this.description;
+        return data;
+    }
+
+    @Override
     public String toString() {
         return "[T]" + super.toString();
     }
