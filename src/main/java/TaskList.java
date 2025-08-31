@@ -5,7 +5,8 @@ public class TaskList {
     private int size = 0;
     private Ui ui;
 
-    TaskList(Ui ui) {
+    TaskList(ArrayList<Task> tasks, Ui ui) {
+        this.tasks = tasks;
         this.ui = ui;
     }
 
