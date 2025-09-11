@@ -21,7 +21,7 @@ public class Ui {
     }
 
     public void printLogo() {
-        System.out.println(logo);
+        System.out.println(LOGO);
     }
     public static void exitMsg() {
         String str = "Bye. Hope to see you again soon!";

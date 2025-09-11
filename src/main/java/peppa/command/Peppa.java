@@ -40,7 +40,15 @@ public class Peppa {
         ui.exitMsg();
         ui.printline();
     }
+
     public static void main(String[] args) {
         new Peppa("./data/Peppa.txt").run();
+    }
+
+    /**
+     * Generates a reponse for the user's chat message
+     */
+    public String getResponse(String input) {
+        return "Peppa heard: " + input;
     }
 }
