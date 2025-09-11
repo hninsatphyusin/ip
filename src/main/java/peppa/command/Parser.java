@@ -1,7 +1,7 @@
 package peppa.command;
 
 import peppa.task.TaskList;
-import peppa.ui.Ui;
+// import peppa.ui.Ui; (no longer needed)
 
 /**
  * Parses a raw user command and triggers the matching TaskList / Storage / Ui action.
@@ -9,7 +9,6 @@ import peppa.ui.Ui;
 public class Parser {
     private final TaskList tasks;
     private final Storage storage;
-    private final Ui ui;
 
     /**
      * Creates a parser bound to the given collaborators.
@@ -18,10 +17,9 @@ public class Parser {
      * @param storage  persistence layer used for serialising {@code tasks}
      * @param ui       user-interface helper for printing separators / prompts
      */
-    public Parser(TaskList tasks, Storage storage, Ui ui) {
+    public Parser(TaskList tasks, Storage storage) {
         this.tasks = tasks;
         this.storage = storage;
-        this.ui = ui;
     }
 
     /**
@@ -31,49 +29,45 @@ public class Parser {
      * @return {@code false} if the user typed {@literal "bye"} (caller should terminate);
      *         {@code true} otherwise
      */
-    public boolean parse(String input) {
+    public String parse(String input) {
         input = input.trim();
-        String command = input.split("\\s+", 2)[0];   //takes the first word
+        String command = input.split("\\s+", 2)[0];
         switch (command) {
-        case "bye":
-            return false; //it will end the loop
-        case "list":
-            tasks.displayTasks();
-            break;
-        case "unmark": {
-            String[] parts = input.split(" ");
-            tasks.unmarkTask(Integer.parseInt(parts[1]) - 1);
-            storage.save(tasks);
-            break;
+            case "bye":
+                return "Bye. Hope to see you again soon!";
+            case "list":
+                return tasks.displayTasks();
+            case "unmark": {
+                String[] parts = input.split(" ");
+                String result = tasks.unmarkTask(Integer.parseInt(parts[1]) - 1);
+                storage.save(tasks);
+                return result;
+            }
+            case "mark": {
+                String[] parts = input.split(" ");
+                String result = tasks.markTask(Integer.parseInt(parts[1]) - 1);
+                storage.save(tasks);
+                return result;
+            }
+            case "delete": {
+                String[] parts = input.split(" ");
+                String result = tasks.deleteTask(Integer.parseInt(parts[1]) - 1);
+                storage.save(tasks);
+                return result;
+            }
+            case "find": {
+                String toFind = input.split("\\s+", 2)[1];
+                return tasks.findTask(toFind);
+            }
+            case "todo":
+            case "deadline":
+            case "event": {
+                String result = tasks.addTask(input);
+                storage.save(tasks);
+                return result;
+            }
+            default:
+                return "Oopsies, I don't know what that means!";
         }
-        case "mark": {
-            String[] parts = input.split(" ");
-            tasks.markTask(Integer.parseInt(parts[1]) - 1);
-            storage.save(tasks);
-            break;
-        }
-        case "delete": {
-            String[] parts = input.split(" ");
-            tasks.deleteTask(Integer.parseInt(parts[1]) - 1);
-            storage.save(tasks);
-            break;
-        }
-        case "find": {
-            String toFind = input.split("\\s+", 2)[1];
-            tasks.findTask(toFind);
-            break;
-        }
-        case "todo":
-        case "deadline":
-        case "event":
-            tasks.addTask(input);
-            storage.save(tasks);
-            break;
-
-        default:
-            System.out.println("Oopsies, I don't know what that means!");
-            ui.printline();
-        }
-        return true;
     }
 }

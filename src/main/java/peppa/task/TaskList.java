@@ -1,6 +1,6 @@
 package peppa.task;
 
-import peppa.ui.Ui;
+// import peppa.ui.Ui; (no longer needed)
 
 import java.util.ArrayList;
 
@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<Task>();
-    private Ui ui;
 
     /**
      * Wraps an existing task collection with a UI helper.
@@ -18,9 +17,8 @@ public class TaskList {
      * @param tasks initial task data to manage
      * @param ui    CLI decorator responsible for printing divider lines
      */
-    public TaskList(ArrayList<Task> tasks, Ui ui) {
+    public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
-        this.ui = ui;
     }
 
     /**
@@ -31,50 +29,47 @@ public class TaskList {
      * @return {@code true} if parsing succeeded and the task was stored;
      *         {@code false} for malformed input
      */
-    public boolean addTask(String task) {
+    public String addTask(String task) {
         Task newTask;
+        StringBuilder sb = new StringBuilder();
         if (task.contains("todo")) {
-            newTask = new ToDo(task.substring(5, task.length())); //remove the todo
+            newTask = new ToDo(task.substring(5, task.length()));
         } else if (task.contains("deadline")) {
-            String str = task.substring(9); //remove the deadline
-            String[] arr = str.split("/by "); //split into description and deadline
-            newTask = new Deadline(arr[0], arr[1]); //create a newTask
+            String str = task.substring(9);
+            String[] arr = str.split("/by ");
+            newTask = new Deadline(arr[0], arr[1]);
         } else if (task.contains("event")) {
-            String str =  task.substring(6); //remove the deadline
-
+            String str =  task.substring(6);
             int from = str.indexOf("/from");
             int to = str.indexOf("/to");
-
             String description = str.substring(0, from-1);
             String start = str.substring(from+6, to-1);
             String end = str.substring(to+4);
-
             newTask = new Event(description, start, end);
         } else {
             newTask = null;
         }
         if (newTask!=null) {
             tasks.add(newTask);
-            System.out.println("Got it. I've: added this task: ");
-            System.out.println(newTask);
-            System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-            ui.printline();
-            return true;
+            sb.append("Got it. I've added this task:\n");
+            sb.append(newTask).append("\n");
+            sb.append("Now you have " + tasks.size() + " tasks in the list.\n");
         } else {
-            ui.printline();
-            return false;
+            sb.append("Invalid task format.\n");
         }
+        return sb.toString();
     }
 
     /**
      * Prints every task with a 1-based index, then a divider line.
      */
-    public void displayTasks() {
+    public String displayTasks() {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < tasks.size(); i++) {
             int num = i+1;
-            System.out.println(num+"."+ tasks.get(i));
+            sb.append(num).append(".").append(tasks.get(i)).append("\n");
         }
-        ui.printline();
+        return sb.toString();
     }
 
     /**
@@ -83,17 +78,16 @@ public class TaskList {
      * @param num zero-based task index
      * @return {@code true} on success, {@code false} if the index is out of range
      */
-    public boolean markTask(int num) {
+    public String markTask(int num) {
+        StringBuilder sb = new StringBuilder();
         if (num < tasks.size()) {
             tasks.get(num).markAsDone();
-            System.out.println("Nice! I've marked this task as done: ");
-            System.out.println(tasks.get(num));
-            ui.printline();
-            return true;
+            sb.append("Nice! I've marked this task as done:\n");
+            sb.append(tasks.get(num)).append("\n");
+        } else {
+            sb.append("Cannot mark task because task does not exist!\n");
         }
-        System.out.println("Cannot unmark task because task does not exist!");
-        ui.printline();
-        return false;
+        return sb.toString();
     }
 
     /**
@@ -102,17 +96,16 @@ public class TaskList {
      * @param num zero-based task index
      * @return {@code true} on success, {@code false} if the index is out of range
      */
-    public boolean unmarkTask(int num) {
+    public String unmarkTask(int num) {
+        StringBuilder sb = new StringBuilder();
         if (num < tasks.size()) {
             tasks.get(num).markAsUndone();
-            System.out.println("OK, I've marked this task as not done yet: ");
-            System.out.println(tasks.get(num));
-            ui.printline();
-            return true;
+            sb.append("OK, I've marked this task as not done yet:\n");
+            sb.append(tasks.get(num)).append("\n");
+        } else {
+            sb.append("Cannot unmark task because task does not exist!\n");
         }
-        System.out.println("Cannot unmark task because task does not exist!");
-        ui.printline();
-        return false;
+        return sb.toString();
     }
 
     /**
@@ -121,18 +114,17 @@ public class TaskList {
      * @param num zero-based task index
      * @return {@code true} on success, {@code false} if the index is out of range
      */
-    public boolean deleteTask(int num) {
+    public String deleteTask(int num) {
+        StringBuilder sb = new StringBuilder();
         if (num < tasks.size()) {
             Task tbr = tasks.remove(num);
-            System.out.println("Noted. I've removed this task:");
-            System.out.println(tbr);
-            System.out.println("Now you have " + tasks.size() + " in the list");
-            ui.printline();
-            return true;
+            sb.append("Noted. I've removed this task:\n");
+            sb.append(tbr).append("\n");
+            sb.append("Now you have " + tasks.size() + " in the list\n");
+        } else {
+            sb.append("Cannot delete task because task does not exist!\n");
         }
-        System.out.println("Cannot delete task because task does not exist!");
-        ui.printline();
-        return false;
+        return sb.toString();
     }
 
     /**
@@ -153,18 +145,18 @@ public class TaskList {
         return this.tasks;
     }
 
-    public void findTask(String toFind) {
-        ui.printline();
-        System.out.println("Here are the matching tasks in your list: ");
+    public String findTask(String toFind) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Here are the matching tasks in your list:\n");
         int count = 0;
         for (int i = 0; i < tasks.size(); i++) {
             Task curr = tasks.get(i);
             if (curr.isMatch(toFind)) {
-                System.out.println(count + "." + curr.toString());
+                sb.append(count).append(".").append(curr.toString()).append("\n");
                 count++;
             }
         }
-        ui.printline();
+        return sb.toString();
     }
 
 }
