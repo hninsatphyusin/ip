@@ -7,7 +7,7 @@ import peppa.task.TaskList;
  * Parses a raw user command and triggers the matching TaskList / Storage / Ui action.
  */
 public class Parser {
-    private final TaskList tasks;
+    private TaskList tasks;
     private final Storage storage;
 
     /**

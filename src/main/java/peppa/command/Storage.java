@@ -20,7 +20,7 @@ import java.io.FileWriter;
  * Internally wraps a {@link java.io.File} and handles both serialization and parsing.
  */
 public class Storage {
-    private final File filePath;
+    private final File file;
 
     /**
      * Builds a Storage backed by the given path and guarantees that
@@ -29,16 +29,16 @@ public class Storage {
      * @param filePath location of the save file relative to the project root
      */
     public Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
-        this.filePath = new File(filePath);
+        this.file = new File(filePath);
         try {
-            if (this.filePath.exists()) {
+            if (this.file.exists()) {
                 load();
             } else {
-                File parentDir = this.filePath.getParentFile();
+                File parentDir = this.file.getParentFile();
                 if (!parentDir.exists()) {
                     parentDir.mkdirs();
                 }
-                this.filePath.createNewFile();
+                this.file.createNewFile();
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -55,11 +55,11 @@ public class Storage {
     public boolean save(TaskList tasks) {
         ArrayList<Task> tl = tasks.getTaskList();
         try {
-            if (filePath.exists()) {
-                filePath.delete();
+            if (file.exists()) {
+                file.delete();
             }
-            filePath.createNewFile();
-            FileWriter writer = new FileWriter(filePath);
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
             for (int i = 0; i < tl.size(); i++) {
                 String saveFileDesc = tl.get(i).toSaveFileFormat();
                 writer.write(saveFileDesc+"\n");
@@ -83,12 +83,12 @@ public class Storage {
      * @throws IOException if a low-level I/O error prevents reading the file
      */
     public ArrayList<Task> load() throws IOException {
-        if (!filePath.exists()) {
+        if (!file.exists()) {
             return null;
         }
         try {
             ArrayList<Task> data = new ArrayList<>();
-            Scanner scanner = new Scanner(filePath);
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] splitLine = line.split(" \\| ");
