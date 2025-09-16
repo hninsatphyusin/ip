@@ -95,18 +95,18 @@ public class Storage {
 
                 Task newTask;
                 switch (splitLine[0]) {
-                    case "T":
-                        newTask = new ToDo(splitLine[2]);
-                        break;
-                    case "E":
-                        newTask = new Event(splitLine[2], splitLine[3], splitLine[4]);
-                        break;
-                    case "D":
-                        newTask = new Deadline(splitLine[2], splitLine[3]);
-                        break;
-                    default:
-                        newTask = null;
-                        throw new SaveFileCorruptedException();
+                case "T":
+                    newTask = new ToDo(splitLine[2]);
+                    break;
+                case "E":
+                    newTask = new Event(splitLine[2], splitLine[3], splitLine[4]);
+                    break;
+                case "D":
+                    newTask = new Deadline(splitLine[2], splitLine[3]);
+                    break;
+                default:
+                    newTask = null;
+                    throw new SaveFileCorruptedException();
 
                 }
                 if ( newTask != null ) {
