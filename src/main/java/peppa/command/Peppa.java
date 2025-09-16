@@ -13,6 +13,7 @@ public class Peppa {
     private Storage storage;
 
     public Peppa(String filePath) {
+        assert filePath != null && !filePath.isEmpty() : "File path should not be null or empty";
         this.storage = new Storage(filePath);
         try {
             this.tasks = new TaskList(storage.load());
@@ -20,7 +21,9 @@ public class Peppa {
             // handle error, maybe log or set tasks to empty
             this.tasks = new TaskList(new java.util.ArrayList<>());
         }
+        assert this.tasks != null : "TaskList should not be null after initialization";
         this.parser = new Parser(tasks, storage);
+        assert this.parser != null : "Parser should not be null after initialization";
     }
 
     // Removed run() method, not needed for GUI
@@ -31,6 +34,7 @@ public class Peppa {
      * Generates a response for the user's chat message using Parser and TaskList
      */
     public String getResponse(String input) {
+        assert input != null : "Input to getResponse should not be null";
         return parser.parse(input);
     }
 }
