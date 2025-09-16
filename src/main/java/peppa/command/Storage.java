@@ -53,15 +53,15 @@ public class Storage {
      * @return {@code true} on success, {@code false} if any I/O error occurs
      */
     public boolean save(TaskList tasks) {
-        ArrayList<Task> tl = tasks.getTaskList();
+        ArrayList<Task> currentTasks = tasks.getTaskList();
         try {
             if (file.exists()) {
                 file.delete();
             }
             file.createNewFile();
             FileWriter writer = new FileWriter(file);
-            for (int i = 0; i < tl.size(); i++) {
-                String saveFileDesc = tl.get(i).toSaveFileFormat();
+            for (int i = 0; i < currentTasks.size(); i++) {
+                String saveFileDesc = currentTasks.get(i).toSaveFileFormat();
                 writer.write(saveFileDesc+"\n");
             }
             writer.close();
