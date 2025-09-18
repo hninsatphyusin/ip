@@ -78,12 +78,12 @@ public class TaskList {
      * @param num zero-based task index
      * @return {@code true} on success, {@code false} if the index is out of range
      */
-    public String markTask(int num) {
+    public String markTask(int idx) {
         StringBuilder sb = new StringBuilder();
-        if (num < tasks.size()) {
-            tasks.get(num).markAsDone();
+        if (idx < tasks.size()) {
+            tasks.get(idx).markAsDone();
             sb.append("Nice! I've marked this task as done:\n");
-            sb.append(tasks.get(num)).append("\n");
+            sb.append(tasks.get(idx)).append("\n");
         } else {
             sb.append("Cannot mark task because task does not exist!\n");
         }
