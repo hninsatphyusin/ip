@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * while delegating all console output decorations to a {@link Ui} instance.
  */
 public class TaskList {
-    private final ArrayList<Task> tasks = new ArrayList<Task>();
+    private ArrayList<Task> tasks = new ArrayList<Task>();
 
     /**
      * Wraps an existing task collection with a UI helper.
