@@ -29,16 +29,20 @@ public class Storage {
      * @param filePath location of the save file relative to the project root
      */
     public Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
-        this.file = new File(filePath);
+        assert filePath != null && !filePath.isEmpty() : "File path should not be null or empty";
+        this.filePath = new File(filePath);
         try {
-            if (this.file.exists()) {
+            if (this.filePath.exists()) {
+                assert this.filePath.isFile() : "filePath should be a file if it exists";
                 load();
             } else {
                 File parentDir = this.file.getParentFile();
                 if (!parentDir.exists()) {
-                    parentDir.mkdirs();
+                    boolean created = parentDir.mkdirs();
+                    assert created : "Parent directory should be created successfully";
                 }
-                this.file.createNewFile();
+                boolean createdFile = this.filePath.createNewFile();
+                assert createdFile : "Save file should be created successfully";
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -53,15 +57,20 @@ public class Storage {
      * @return {@code true} on success, {@code false} if any I/O error occurs
      */
     public boolean save(TaskList tasks) {
-        ArrayList<Task> currentTasks = tasks.getTaskList();
+        assert tasks != null : "TaskList to save should not be null";
+        ArrayList<Task> tl = tasks.getTaskList();
+        assert tl != null : "Task list should not be null";
         try {
-            if (file.exists()) {
-                file.delete();
+            if (filePath.exists()) {
+                boolean deleted = filePath.delete();
+                assert deleted : "Existing file should be deleted successfully";
             }
-            file.createNewFile();
-            FileWriter writer = new FileWriter(file);
-            for (int i = 0; i < currentTasks.size(); i++) {
-                String saveFileDesc = currentTasks.get(i).toSaveFileFormat();
+            boolean created = filePath.createNewFile();
+            assert created : "File should be created successfully for saving";
+            FileWriter writer = new FileWriter(filePath);
+            for (int i = 0; i < tl.size(); i++) {
+                String saveFileDesc = tl.get(i).toSaveFileFormat();
+                assert saveFileDesc != null : "Save file description should not be null";
                 writer.write(saveFileDesc+"\n");
             }
             writer.close();
@@ -83,7 +92,8 @@ public class Storage {
      * @throws IOException if a low-level I/O error prevents reading the file
      */
     public ArrayList<Task> load() throws IOException {
-        if (!file.exists()) {
+        assert filePath != null : "File path should not be null";
+        if (!filePath.exists()) {
             return null;
         }
         try {
@@ -91,22 +101,26 @@ public class Storage {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String[] splitLine = line.split(" \\| ");
+                assert line != null : "Line read from file should not be null";
+                String[] splitLine = line.split(" \| ");
+                assert splitLine.length >= 3 : "Save file line should have at least 3 fields";
 
                 Task newTask;
                 switch (splitLine[0]) {
-                case "T":
-                    newTask = new ToDo(splitLine[2]);
-                    break;
-                case "E":
-                    newTask = new Event(splitLine[2], splitLine[3], splitLine[4]);
-                    break;
-                case "D":
-                    newTask = new Deadline(splitLine[2], splitLine[3]);
-                    break;
-                default:
-                    newTask = null;
-                    throw new SaveFileCorruptedException();
+                    case "T":
+                        newTask = new ToDo(splitLine[2]);
+                        break;
+                    case "E":
+                        assert splitLine.length >= 5 : "Event should have at least 5 fields";
+                        newTask = new Event(splitLine[2], splitLine[3], splitLine[4]);
+                        break;
+                    case "D":
+                        assert splitLine.length >= 4 : "Deadline should have at least 4 fields";
+                        newTask = new Deadline(splitLine[2], splitLine[3]);
+                        break;
+                    default:
+                        newTask = null;
+                        throw new SaveFileCorruptedException();
 
                 }
                 if ( newTask != null ) {

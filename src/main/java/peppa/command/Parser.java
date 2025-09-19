@@ -18,6 +18,8 @@ public class Parser {
      * @param ui       user-interface helper for printing separators / prompts
      */
     public Parser(TaskList tasks, Storage storage) {
+        assert tasks != null : "TaskList should not be null";
+        assert storage != null : "Storage should not be null";
         this.tasks = tasks;
         this.storage = storage;
     }
@@ -30,7 +32,9 @@ public class Parser {
      *         {@code true} otherwise
      */
     public String parse(String input) {
+        assert input != null : "Input command should not be null";
         input = input.trim();
+        assert !input.isEmpty() : "Input command should not be empty after trimming";
         String command = input.split("\\s+", 2)[0];
         switch (command) {
             case "bye":
@@ -39,24 +43,35 @@ public class Parser {
                 return tasks.displayTasks();
             case "unmark": {
                 String[] parts = input.split(" ");
-                String result = tasks.unmarkTask(Integer.parseInt(parts[1]) - 1);
+                assert parts.length > 1 : "Unmark command should have an index argument";
+                int idx = Integer.parseInt(parts[1]) - 1;
+                assert idx >= 0 : "Task index for unmark should be non-negative";
+                String result = tasks.unmarkTask(idx);
                 storage.save(tasks);
                 return result;
             }
             case "mark": {
                 String[] parts = input.split(" ");
-                String result = tasks.markTask(Integer.parseInt(parts[1]) - 1);
+                assert parts.length > 1 : "Mark command should have an index argument";
+                int idx = Integer.parseInt(parts[1]) - 1;
+                assert idx >= 0 : "Task index for mark should be non-negative";
+                String result = tasks.markTask(idx);
                 storage.save(tasks);
                 return result;
             }
             case "delete": {
                 String[] parts = input.split(" ");
-                String result = tasks.deleteTask(Integer.parseInt(parts[1]) - 1);
+                assert parts.length > 1 : "Delete command should have an index argument";
+                int idx = Integer.parseInt(parts[1]) - 1;
+                assert idx >= 0 : "Task index for delete should be non-negative";
+                String result = tasks.deleteTask(idx);
                 storage.save(tasks);
                 return result;
             }
             case "find": {
-                String toFind = input.split("\\s+", 2)[1];
+                String[] parts = input.split("\\s+", 2);
+                assert parts.length > 1 : "Find command should have a search argument";
+                String toFind = parts[1];
                 return tasks.findTask(toFind);
             }
             case "todo":
