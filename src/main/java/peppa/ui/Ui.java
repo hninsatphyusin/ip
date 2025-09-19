@@ -12,7 +12,7 @@ public class Ui {
             + "| _|      |_______|| _|      | _|    /__/     \\__\\\n";
 
 
-    public void greeting() {
+    public void printGreetingMsg() {
         String str = "Hello! I'm " + NAME + "!\nWhat can I do for you?";
         System.out.println(str);
     }
@@ -23,7 +23,7 @@ public class Ui {
     public void printLogo() {
         System.out.println(LOGO);
     }
-    public static void exitMsg() {
+    public static void printExitMsg() {
         String str = "Bye. Hope to see you again soon!";
         System.out.println(str);
     }

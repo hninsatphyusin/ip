@@ -20,7 +20,7 @@ import java.io.FileWriter;
  * Internally wraps a {@link java.io.File} and handles both serialization and parsing.
  */
 public class Storage {
-    private final File filePath;
+    private final File file;
 
     /**
      * Builds a Storage backed by the given path and guarantees that
@@ -36,7 +36,7 @@ public class Storage {
                 assert this.filePath.isFile() : "filePath should be a file if it exists";
                 load();
             } else {
-                File parentDir = this.filePath.getParentFile();
+                File parentDir = this.file.getParentFile();
                 if (!parentDir.exists()) {
                     boolean created = parentDir.mkdirs();
                     assert created : "Parent directory should be created successfully";
@@ -98,7 +98,7 @@ public class Storage {
         }
         try {
             ArrayList<Task> data = new ArrayList<>();
-            Scanner scanner = new Scanner(filePath);
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 assert line != null : "Line read from file should not be null";
