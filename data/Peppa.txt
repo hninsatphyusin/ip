@@ -6,3 +6,4 @@ T | 0 | borrow book
 T | 1 | cs2103 ip level 8
 T | 1 | read book
 T | 0 | read cs2107 lecture on encryption
+T | 0 | submit ip
