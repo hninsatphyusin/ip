@@ -1,5 +1,7 @@
 package peppa.task;
 
+import java.time.LocalDateTime;
+
 public class ToDo extends Task {
     public ToDo(String description) {
         super(description);
@@ -15,6 +17,24 @@ public class ToDo extends Task {
         }
         data += this.description;
         return data;
+    }
+
+    @Override
+    public LocalDateTime getDateTime() {
+        return null; // ToDo tasks have no specific date/time
+    }
+
+    @Override
+    public int compareTo(Task other) {
+        LocalDateTime otherDateTime = other.getDateTime();
+        
+        // If the other task has a date/time, it comes before this ToDo
+        if (otherDateTime != null) {
+            return 1;
+        }
+        
+        // Both tasks have no date/time - compare alphabetically by description
+        return this.description.compareToIgnoreCase(other.description);
     }
 
     @Override

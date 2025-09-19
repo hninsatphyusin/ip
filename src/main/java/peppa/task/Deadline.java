@@ -56,5 +56,23 @@ public class Deadline extends Task {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern(OUTPUT_DATE_FORMAT);
         return "[D]" + super.toString() + "(by: " + this.by.format(fmt) + ")";
     }
+
+    @Override
+    public LocalDateTime getDateTime() {
+        return this.by; // Use the deadline for sorting
+    }
+
+    @Override
+    public int compareTo(Task other) {
+        LocalDateTime otherDateTime = other.getDateTime();
+        
+        // If the other task has no date/time, this deadline comes before it
+        if (otherDateTime == null) {
+            return -1;
+        }
+        
+        // Both tasks have date/time - compare by date/time
+        return this.by.compareTo(otherDateTime);
+    }
 }
 

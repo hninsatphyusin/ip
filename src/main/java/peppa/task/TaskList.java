@@ -3,6 +3,7 @@ package peppa.task;
 // import peppa.ui.Ui; (no longer needed)
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * In-memory catalogue of {@link Task}s, offering add / list / mark / unmark / delete operations
@@ -19,6 +20,7 @@ public class TaskList {
      */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
+        this.sortTasks();
     }
 
     /**
@@ -54,6 +56,7 @@ public class TaskList {
             sb.append("Got it. I've added this task:\n");
             sb.append(newTask).append("\n");
             sb.append("Now you have " + tasks.size() + " tasks in the list.\n");
+            this.sortTasks();
         } else {
             sb.append("Invalid task format.\n");
         }
@@ -157,6 +160,16 @@ public class TaskList {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Sorts the task list according to the task comparison rules:
+     * 1. Tasks with deadlines/times come before those without
+     * 2. Among tasks with deadlines/times, earlier dates come first
+     * 3. Tasks without deadlines/times are sorted alphabetically
+     */
+    public void sortTasks() {
+        Collections.sort(tasks);
     }
 
 }

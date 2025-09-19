@@ -57,4 +57,22 @@ public class Event extends Task {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern(OUTPUT_DATE_FORMAT);
         return "[E]" + super.toString() + " (from: " + this.from.format(fmt) + " to: " + this.to.format(fmt) + ")";
     }
+
+    @Override
+    public LocalDateTime getDateTime() {
+        return this.from; // Use the start time for sorting
+    }
+
+    @Override
+    public int compareTo(Task other) {
+        LocalDateTime otherDateTime = other.getDateTime();
+        
+        // If the other task has no date/time, this event comes before it
+        if (otherDateTime == null) {
+            return -1;
+        }
+        
+        // Both tasks have date/time - compare by date/time
+        return this.from.compareTo(otherDateTime);
+    }
 }
