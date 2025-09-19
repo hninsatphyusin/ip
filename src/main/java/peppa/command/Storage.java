@@ -26,14 +26,14 @@ public class Storage {
      * Builds a Storage backed by the given path and guarantees that
      * the file (and its parent directory) exist, loading any data found.
      *
-     * @param filePath location of the save file relative to the project root
+     * @param file location of the save file relative to the project root
      */
     public Storage(String filePath) { //creating a new instance of Save will try to create a saveFile
         assert filePath != null && !filePath.isEmpty() : "File path should not be null or empty";
-        this.filePath = new File(filePath);
+        this.file = new File(filePath);
         try {
-            if (this.filePath.exists()) {
-                assert this.filePath.isFile() : "filePath should be a file if it exists";
+            if (this.file.exists()) {
+                assert this.file.isFile() : "file should be a file if it exists";
                 load();
             } else {
                 File parentDir = this.file.getParentFile();
@@ -41,7 +41,7 @@ public class Storage {
                     boolean created = parentDir.mkdirs();
                     assert created : "Parent directory should be created successfully";
                 }
-                boolean createdFile = this.filePath.createNewFile();
+                boolean createdFile = this.file.createNewFile();
                 assert createdFile : "Save file should be created successfully";
             }
         } catch (IOException e) {
@@ -61,13 +61,13 @@ public class Storage {
         ArrayList<Task> tl = tasks.getTaskList();
         assert tl != null : "Task list should not be null";
         try {
-            if (filePath.exists()) {
-                boolean deleted = filePath.delete();
+            if (file.exists()) {
+                boolean deleted = file.delete();
                 assert deleted : "Existing file should be deleted successfully";
             }
-            boolean created = filePath.createNewFile();
+            boolean created = file.createNewFile();
             assert created : "File should be created successfully for saving";
-            FileWriter writer = new FileWriter(filePath);
+            FileWriter writer = new FileWriter(file);
             for (int i = 0; i < tl.size(); i++) {
                 String saveFileDesc = tl.get(i).toSaveFileFormat();
                 assert saveFileDesc != null : "Save file description should not be null";
@@ -92,8 +92,8 @@ public class Storage {
      * @throws IOException if a low-level I/O error prevents reading the file
      */
     public ArrayList<Task> load() throws IOException {
-        assert filePath != null : "File path should not be null";
-        if (!filePath.exists()) {
+        assert file != null : "File path should not be null";
+        if (!file.exists()) {
             return null;
         }
         try {
@@ -102,7 +102,7 @@ public class Storage {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 assert line != null : "Line read from file should not be null";
-                String[] splitLine = line.split(" \| ");
+                String[] splitLine = line.split(" \\| ");
                 assert splitLine.length >= 3 : "Save file line should have at least 3 fields";
 
                 Task newTask;
